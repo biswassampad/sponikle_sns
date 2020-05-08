@@ -26,12 +26,12 @@ const UserSchema = mongoose.Schema({
     salt: {
         type: String
     },
-    userName: {
+    displayname: {
         type: String,
         trim: true,
         required: true
     },
-    display_pic: {
+    displaypic: {
         type: String
     },
     created: {

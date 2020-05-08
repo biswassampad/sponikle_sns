@@ -15,8 +15,8 @@ exports.signup = async(req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        userName: req.body.userName,
-        display_pic: req.body.display_pic
+        displayname: req.body.displayname,
+        displaypic: req.body.displaypic
     });
 
     await user.save()
@@ -49,10 +49,10 @@ exports.signin = async(req, res) => {
         res.cookie("t", token, { expire: new Date() + 100000 })
 
         // return response with user token to front end token 
-        const { _id, name, email, displayName, display_pic } = user;
+        const { _id, name, email, displayname, displaypic } = user;
         return res.json({
             token,
-            user: { _id, name, email, displayName, display_pic }
+            user: { _id, name, email, displayname, displaypic }
         });
     });
 }
