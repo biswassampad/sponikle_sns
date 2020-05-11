@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import {isAuthenticated} from './../functions';
 
 export const Signout = (next) => {
@@ -16,19 +15,30 @@ export const Signout = (next) => {
 
 const Menu = ({ history }) => (
   <div>
-      {!isAuthenticated() &&(
-        <>
-        <Link to = "/" > Home </Link>
-        <Link to = "/signin"> SignIn </Link>
-          <Link to = "/signUp" > SignUp </Link>
-          </>
+    <nav>
+   <div className="nav-wrapper green">
+     <div className="container">
+       <a href="#" className="brand-logo">Sponikle</a>
+       <ul id="nav-mobile" className="right hide-on-med-and-down">
+         {!isAuthenticated() &&(
+           <>
+         <li><Link to = "/" > Home </Link></li>
+         <li><Link to = "/signin"> SignIn </Link></li>
+         <li><Link to = "/signUp" > SignUp </Link></li>
+           </>
       )}
       {isAuthenticated()&&(
         <>
-          <Link onClick = {() => Signout() } to="/" > SignOut </Link>
-          <p>{isAuthenticated().user.name}</p>
-          </>
-      )}
+        <li><Link to={`/user/${isAuthenticated().user._id}`}>{`${isAuthenticated().user.name}'s Profile`}</Link></li>
+        <li><Link to="/users" > Users </Link></li>
+        <li><Link onClick = {() => Signout() } to="/" > SignOut </Link></li>
+        </>
+        )}
+       </ul>
+     </div>
+
+   </div>
+ </nav>
      </div>
 );
 

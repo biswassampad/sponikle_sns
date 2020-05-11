@@ -31,7 +31,7 @@ exports.allUsers = async(req, res) => {
                 message: "No users found"
             })
         }
-        res.json({ user });
+        res.json(user);
     }).select("name email created");
 }
 
