@@ -103,6 +103,14 @@ exports.uploadProfilePicture = async(req, res, next) => {
             user.hashed_password = undefined;
             user.salt = undefined;
             res.json(user);
-        })
-    })
+        });
+    });
+}
+
+exports.getProfilePicture = async(req, res, next) => {
+    if (req.profile.displaypic.data) {
+        res.set(("Content-Type", req.profile.displaypic.contentType));
+        return res.send(req.profile.displaypic.data)
+    }
+    next();
 }

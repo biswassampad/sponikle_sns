@@ -133,7 +133,7 @@ export const fileUploader=(image,userId,type)=>{
   //     var converted = reader.result.slice(22);
   //     if(type=="dp"){
   //       console.log('sending the file');
-        fetch(`http://127.0.0.1:8080/uploaddp/${userId}`,{
+  return  fetch(`http://127.0.0.1:8080/uploaddp/${userId}`,{
           method:"POST",
           headers:{
             Accept:"application/json",

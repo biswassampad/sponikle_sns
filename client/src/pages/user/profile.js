@@ -14,7 +14,8 @@ class Profile extends Component {
       isUploadin:false,
       image:"",
       fileSize:"",
-      error:""
+      error:"",
+      loading: false
     }
   }
   handleChange = (name)=>(event)=>{
@@ -22,12 +23,14 @@ class Profile extends Component {
     const fileSize = name === "photo"?event.target.files[0].size: 0;
     this.setState({[name]:value,fileSize});
   }
-  uploadImage=()=>{
-    console.log('this state',this.state);
+  uploadImage=(event)=>{
+    this.setState({ loading: true });
     const {image}= this.state;
     const userId = this.state.user._id;
     var type="dp";
-    fileUploader(image,userId,type)
+    fileUploader(image,userId,type).then(res=>{
+      this.setState({loading:false});
+    })
   }
   initUser = (userId)=>{
     const token = isAuthenticated().token;
@@ -56,9 +59,12 @@ class Profile extends Component {
   }
   render(){
     const redirectToSignIn = this.state.redirectToSignIn;
+    const {loading} = this.state;
+    var picUrl = this.state.user._id ? `http://127.0.0.1:8080/userdp/${this.state.user._id}?${new Date().getTime()}`:`https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png`;
     return (
       <div className="container">
         <h2>Profile</h2>
+        <img src={picUrl} alt={this.state.user.displayname} className={'user_avatar_profile'}/>
         <h4>Hello {this.state.user.name}</h4>
         <p>{this.state.user.email}</p>
         <p>{`Joined ${new Date(this.state.user.created).toDateString()}`}</p>
@@ -69,6 +75,20 @@ class Profile extends Component {
           <Link className={'waves-effect waves-light btn'} to={`/user/edit/${isAuthenticated().user._id}`}>Edit Profile</Link>
           <Input onChange={this.handleChange("image")} type="file" accept="image/*" className={'waves-effect waves-light btn'}>Upload Image</Input>
           <button onClick={this.uploadImage} className={'waves-effect waves-light yellow light btn'}>Upload</button>
+            {loading ? (
+           <div className="jumbotron text-center">
+             <h2>Loading...</h2>
+           </div>
+         ) : (
+           ""
+         )}
+         {loading ? (
+         <div className="jumbotron text-center">
+           <h2>Loading...</h2>
+         </div>
+       ) : (
+         ""
+       )}
           </>
         )}
         </div>
