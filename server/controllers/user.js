@@ -1,6 +1,10 @@
 const _ = require('lodash');
+const path = require("path");
+const fs = require('fs');
+const formidable = require("formidable");
 
 const User = require('../models/user');
+
 
 exports.userById = async(req, res, next, id) => {
     await User.findById(id).exec((err, user) => {
@@ -68,6 +72,37 @@ exports.deleteUser = async(req, res, next) => {
 
         res.json({
             message: "Account Deleted !!"
+        })
+    })
+}
+
+exports.uploadProfilePicture = async(req, res, next) => {
+    let form = new formidable.IncomingForm();
+    form.keepExtesnions = true;
+    console.log('form', form);
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            return res.status(400).json({
+                error: "Image can not be uploaded ."
+            })
+        }
+        let user = req.profile;
+        if (files.image) {
+            var imageFile = fs.readFileSync(files.image.path);
+            console.log(imageFile)
+            user.displaypic.data = imageFile;
+            user.displaypic.contentType = files.image.type;
+        }
+
+        user.save((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                });
+            }
+            user.hashed_password = undefined;
+            user.salt = undefined;
+            res.json(user);
         })
     })
 }

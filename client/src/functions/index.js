@@ -52,15 +52,20 @@ export const isAuthenticated = () => {
 }
 
 export const readUser = (userId,token)=>{
+  console.log('reading user');
+  console.log(userId, token);
+  var authToken =`Bearer ${token}`;
+  console.log('Bearer token',authToken)
   return fetch(`http://127.0.0.1:8080/user/${userId}`,{
       method:"GET",
       headers:{
         Accept:"application/json",
         "Content-Type":"application/json",
-        Authorization:`Bearer ${isAuthenticated().token}`
+        Authorization:authToken
       }
     })
     .then(response=>{
+      console.log('found user',response);
       return response.json()
     }).catch(err=>{console.log(err);})
 }
@@ -77,4 +82,70 @@ export const getUsrList=()=>{
     .then(response=>{
       return response.json()
     }).catch(err=>{console.log(err);})
+}
+
+export const updateUser=(user,userId)=>{
+  console.log('updating user data');
+  return fetch(`http://127.0.0.1:8080/user/${userId}`,{
+    method:"PUT",
+    headers:{
+      Accept:"application/json",
+      "Contente-Type":"application/json",
+      Authorization:`Bearer ${isAuthenticated().token}`
+    },
+      body:JSON.stringify(user)
+  })
+  .then(response=>{
+    return response.json()
+  }).catch(err=>{
+    console.log(err);
+  })
+}
+
+export const uploadDp=(image,userId)=>{
+  console.log('uploading user profile picture');
+  console.log(image);
+  return fetch(`http://127.0.0.1:8080/uploaddp/${userId}`,{
+    method:"POST",
+    headers:{
+      Accept:"application/json",
+      "Content-Type": "application/json",
+      Authorization:`Bearer ${isAuthenticated().token}`
+    },
+    body:image
+  }).then(response=>{
+    return response.json()
+  }).catch(err=>{
+    console.log(err);
+  })
+}
+
+export const fileUploader=(image,userId,type)=>{
+  console.log(image);
+  const fd = new FormData();
+  fd.append('image',image,image.name);
+  console.log(fd);
+  // console.log('token',token);
+  // var converted = "";
+  // var reader = new FileReader();
+  //   reader.onload = function (){
+  //     console.log('readed file',reader.result);
+  //     var converted = reader.result.slice(22);
+  //     if(type=="dp"){
+  //       console.log('sending the file');
+        fetch(`http://127.0.0.1:8080/uploaddp/${userId}`,{
+          method:"POST",
+          headers:{
+            Accept:"application/json",
+            Authorization:`Bearer ${isAuthenticated().token}`
+          },
+          body:fd
+        }).then(response=>{
+          return response.json()
+        }).catch(err=>{
+          console.log(err);
+        })
+  //     }
+  //     }
+  //   reader.readAsDataURL(image);
 }

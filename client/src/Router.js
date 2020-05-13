@@ -1,6 +1,8 @@
 import React from 'react';
 import {Route,Switch} from 'react-router-dom';
 
+import PrivateRoute from './Router/privateRoute';
+
 import Home from './pages/Home';
 import Signup from './pages/auth/Signup';
 import Signin from './pages/auth/Signin';
@@ -9,6 +11,7 @@ import Profile from './pages/user/profile';
 import Menu from './components/Menu';
 import User from './pages/user/users';
 import Editprofile from './pages/user/editProfile';
+
 
 const Router =()=>(
   <div>
@@ -20,7 +23,7 @@ const Router =()=>(
           <Route path="/dashboard" component={Dashboard} exact></Route>
           <Route path="/user/:userId" component={Profile} exact></Route>
           <Route path="/users" component={User} exact></Route>
-          <Route path="/user/edit/:userId" component={Editprofile} exact></Route>
+          <PrivateRoute path="/user/edit/:userId" component={Editprofile} exact></PrivateRoute>>
     </Switch>
   </div>
 )

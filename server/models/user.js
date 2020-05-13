@@ -32,7 +32,8 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     displaypic: {
-        type: String
+        data: Buffer,
+        contentType: String
     },
     created: {
         type: Date,

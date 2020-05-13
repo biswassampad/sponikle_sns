@@ -6,6 +6,7 @@ const bodyparser = require('body-parser');
 const cookieparser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const cors = require('cors');
+var multer = require('multer');
 
 // database
 
@@ -26,7 +27,9 @@ const userRouter = require("./routes/user");
 
 // middlewares
 app.use(morgan("dev"));
-app.use(bodyparser.json());
+app.use(bodyparser.json({
+    extended: true
+}));
 app.use(expressValidator());
 app.use(cookieparser());
 app.use(cors());
