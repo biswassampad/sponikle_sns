@@ -23,6 +23,7 @@ mongoose.connection.on("error", err => {
 const postRouter = require("./routes/posts");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
+const socialRouter = require("./routes/social");
 
 
 // middlewares
@@ -38,6 +39,7 @@ app.use(cors());
 app.use("/", postRouter);
 app.use("/", authRouter);
 app.use("/", userRouter);
+app.use("/", socialRouter);
 
 app.use(function(err, req, res, next) {
     if (err.name === "UnauthorizedError") {
@@ -50,7 +52,7 @@ app.use(function(err, req, res, next) {
 const port = 8080;
 
 app.listen(port, () => {
-    console.log('Sponikle server is purring like a pussy cat');
+    console.log('Welcome to Sponikle , "THE SOCIAL NETWORK REDIFINED"');
 });
 
 
@@ -60,5 +62,6 @@ app.listen(port, () => {
 // this is meant to be the backend server of sponikle.com
 // sponikle stands for social platform of natural intelligence in designed for knowledge and linguistic exchanges 
 // our moto is a safe secure and easy social platform for each and every human with internet 
+// "The Social Network Re-defined"
 // email : biswassampads@rediffmail.com && biswassampad@sponikle.com
 // ===================================== "THE END"=============================================
