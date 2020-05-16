@@ -60,7 +60,7 @@ class Profile extends Component {
   render(){
     const redirectToSignIn = this.state.redirectToSignIn;
     const {loading} = this.state;
-    var picUrl = this.state.user._id ? `http://127.0.0.1:8080/userdp/${this.state.user._id}?${new Date().getTime()}`:`https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png`;
+    var picUrl = this.state.user._id ? this.state.user.displaypic:`https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png`;
     return (
       <div className="container">
         <h2>Profile</h2>

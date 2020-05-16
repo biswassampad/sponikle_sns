@@ -43,4 +43,4 @@ const FriendSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Follow", FriendSchema);
+module.exports = mongoose.model("Friend", FriendSchema);

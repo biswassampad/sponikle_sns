@@ -4,10 +4,10 @@ const { requireSignin } = require('../controllers/auth');
 const userController = require('../controllers/user');
 
 
-const router = expres.Router();
+const router = express.Router();
 
 // routes from controller
-router.post('/follow/:userId', requireSign, realtionController.requestFollow);
+router.post('/follow/:userId', realtionController.requestFollow);
 
 
 

@@ -49,10 +49,10 @@ exports.signin = async(req, res) => {
         res.cookie("t", token, { expire: new Date() + 100000 })
 
         // return response with user token to front end token 
-        const { _id, name, email, displayname, displaypic } = user;
+        const { _id, name, email, displayname } = user;
         return res.json({
             token,
-            user: { _id, name, email, displayname, displaypic }
+            user: { _id, name, email, displayname }
         });
     });
 }

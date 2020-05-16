@@ -1,9 +1,36 @@
 const _ = require('lodash');
-const path = require("path");
 const fs = require('fs');
 const formidable = require("formidable");
-
+const upload = require('./../services/fileUpload');
 const User = require('../models/user');
+const aws = require('aws-sdk');
+
+
+
+function uploadToS3(file, filename, cb) {
+    console.log('uploading initiated')
+    let s3bucket = new aws.S3({
+        accessKeyId: 'AKIAJM2EGAWHAXMOKKLQ',
+        secretAccessKey: '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',
+        Bucket: 'sponikle'
+    });
+    s3bucket.createBucket(function() {
+        var params = {
+            Bucket: 'sponikledp/images',
+            Key: filename + '.jpg',
+            Body: file
+        };
+        return s3bucket.upload(params, function(err, data) {
+            console.log('cloud,OK', 'Uploading..........')
+            if (err) {
+                console.log('error in callback');
+                console.log(err);
+            }
+            console.log('success');
+            return cb(data);
+        });
+    });
+}
 
 
 exports.userById = async(req, res, next, id) => {
@@ -79,7 +106,7 @@ exports.deleteUser = async(req, res, next) => {
 exports.uploadProfilePicture = async(req, res, next) => {
     let form = new formidable.IncomingForm();
     form.keepExtesnions = true;
-    console.log('form', form);
+    let stringDate = Date.parse(new Date);
     form.parse(req, (err, fields, files) => {
         if (err) {
             return res.status(400).json({
@@ -89,28 +116,29 @@ exports.uploadProfilePicture = async(req, res, next) => {
         let user = req.profile;
         if (files.image) {
             var imageFile = fs.readFileSync(files.image.path);
-            console.log(imageFile)
-            user.displaypic.data = imageFile;
-            user.displaypic.contentType = files.image.type;
-        }
-
-        user.save((err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    error: err
+            var fileName = user._id + stringDate
+            uploadToS3(imageFile, fileName, function(response) {
+                user.displaypic = response.Location;
+                user.save((err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: err
+                        });
+                    }
+                    user.hashed_password = undefined;
+                    user.salt = undefined;
+                    res.json(user);
                 });
-            }
-            user.hashed_password = undefined;
-            user.salt = undefined;
-            res.json(user);
-        });
+            });
+        }
     });
 }
 
 exports.getProfilePicture = async(req, res, next) => {
-    if (req.profile.displaypic.data) {
-        res.set(("Content-Type", req.profile.displaypic.contentType));
-        return res.send(req.profile.displaypic.data)
+    console.log('user details', req.profile);
+    if (req.profile.displaypic) {
+        console.log('user diplay pic', req.profile.displaypic)
+        return res.send(req.profile.displaypic)
     }
     next();
 }
