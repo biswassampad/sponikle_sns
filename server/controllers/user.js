@@ -1,12 +1,11 @@
 const _ = require('lodash');
 const fs = require('fs');
 const formidable = require("formidable");
-const upload = require('./../services/fileUpload');
 const User = require('../models/user');
 const aws = require('aws-sdk');
 
 
-
+// uploading to cloud function 
 function uploadToS3(file, filename, cb) {
     console.log('uploading initiated')
     let s3bucket = new aws.S3({
@@ -32,20 +31,24 @@ function uploadToS3(file, filename, cb) {
     });
 }
 
-
+// getting user by id function
 exports.userById = async(req, res, next, id) => {
-    await User.findById(id).exec((err, user) => {
-        if (err || !user) {
-            return res.status(400).json({
-                error: "User not found"
-            })
-        }
-        //adds the profile object in req with user info
-        req.profile = user;
-        next();
-    })
+    await User.findById(id)
+        .populate('following', '_id displayname displaypic')
+        .populate('followers', '_id displayname displapic')
+        .exec((err, user) => {
+            if (err || !user) {
+                return res.status(400).json({
+                    error: "User not found"
+                })
+            }
+            //adds the profile object in req with user info
+            req.profile = user;
+            next();
+        })
 }
 
+// checks if the requester has authorization or not
 exports.hasAuthorizarion = async(req, res, next) => {
     const authorized = await req.profile && req.auth && req.profile.id === req.auth._id
     if (!authorized) {
@@ -55,6 +58,7 @@ exports.hasAuthorizarion = async(req, res, next) => {
     }
 }
 
+// gets all the user
 exports.allUsers = async(req, res) => {
     await User.find((err, user) => {
         if (err) {
@@ -66,12 +70,14 @@ exports.allUsers = async(req, res) => {
     }).select("name email created");
 }
 
+// gets perticular user by id
 exports.getUser = async(req, res) => {
     req.profile.hashed_password = undefined;
     req.profile.salt = undefined;
     return await res.status(200).json(req.profile);
 }
 
+// updates  user by id
 exports.updateUser = async(req, res, next) => {
     let user = req.profile
     user = _.extend(user, req.body); //extend - mutates the source object
@@ -88,6 +94,7 @@ exports.updateUser = async(req, res, next) => {
     })
 }
 
+// deletes user by id
 exports.deleteUser = async(req, res, next) => {
     let user = req.profile;
     await user.remove((err, user) => {
@@ -103,6 +110,7 @@ exports.deleteUser = async(req, res, next) => {
     })
 }
 
+// updated user profile picture
 exports.uploadProfilePicture = async(req, res, next) => {
     let form = new formidable.IncomingForm();
     form.keepExtesnions = true;
@@ -134,6 +142,7 @@ exports.uploadProfilePicture = async(req, res, next) => {
     });
 }
 
+//gets the profile pic for the perticular user 
 exports.getProfilePicture = async(req, res, next) => {
     console.log('user details', req.profile);
     if (req.profile.displaypic) {
@@ -142,3 +151,64 @@ exports.getProfilePicture = async(req, res, next) => {
     }
     next();
 }
+
+
+
+// follow & unfollow methods
+exports.addFollowing = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.userId, {
+        $push: { following: req.body.followId }
+    }, (err, result) => {
+        if (err) {
+            return res.status(400).json({ error: err });
+        }
+        next()
+    })
+};
+
+exports.addFollower = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.followId, {
+            $push: { followers: req.body.userId }
+        }, { new: true })
+        .populate('following', '_id displayname displaypic')
+        .populate('followers', '_id displayname displaypic')
+        .exec((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            result.hashed_password = undefined;
+            result.salt = undefined;
+            res.json(result);
+        });
+};
+
+exports.removeFollowing = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.userId, {
+        $pull: { following: req.body.unfollowId }
+    }, (err, result) => {
+        if (err) {
+            return res.status(400).json({ error: err });
+        }
+        next()
+    })
+};
+
+exports.removeFollower = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.unfollowId, {
+            $pull: { followers: req.body.userId }
+        }, { new: true })
+        .populate('following', '_id displayname displaypic')
+        .populate('followers', '_id displayname displaypic')
+        .exec((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            result.hashed_password = undefined;
+            result.salt = undefined;
+            res.json(result);
+        });
+};

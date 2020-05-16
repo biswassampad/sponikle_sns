@@ -9,6 +9,8 @@ router.put("/user/:userId", requireSignin, userController.updateUser);
 router.delete("/user/:userId", requireSignin, userController.deleteUser);
 router.post("/uploaddp/:userId", requireSignin, userController.uploadProfilePicture);
 router.get("/userdp/:userId", requireSignin, userController.getProfilePicture);
+router.put("/user/follow", requireSignin, userController.addFollowing, userController.addFollower);
+router.put("/user/unfollow", requireSignin, userController.removeFollowing, userController.removeFollower);
 
 // any routes containing ::userId ,our app will execute userById()
 router.param("userId", userController.userById);

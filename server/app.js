@@ -23,7 +23,7 @@ mongoose.connection.on("error", err => {
 const postRouter = require("./routes/posts");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
-const socialRouter = require("./routes/social");
+const followRouter = require("./routes/follow");
 
 
 // middlewares
@@ -39,7 +39,7 @@ app.use(cors());
 app.use("/", postRouter);
 app.use("/", authRouter);
 app.use("/", userRouter);
-app.use("/", socialRouter);
+app.use("/", followRouter);
 
 app.use(function(err, req, res, next) {
     if (err.name === "UnauthorizedError") {
