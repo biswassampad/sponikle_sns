@@ -4,19 +4,29 @@ import {Link} from 'react-router-dom';
 import { Input } from '@material-ui/core';
 
 import {isAuthenticated,readUser,uploadDp,fileUploader} from '../../functions';
+import FollowProfileButton from '../../components/FollowProfileButton';
 
 class Profile extends Component {
   constructor(){
     super()
     this.state = {
-      user:"",
+      user:{following:[],followers:[]},
       redirectToSignIn : false,
       isUploadin:false,
       image:"",
       fileSize:"",
       error:"",
-      loading: false
+      loading: false,
+      following: false
     }
+  }
+
+  checkFollow = user =>{
+    const jwt = isAuthenticated();
+    const match = user.followers.find(follower=>{
+      return follower._id ==  jwt.user._id;
+    })
+    return match;
   }
   handleChange = (name)=>(event)=>{
     const value = name === "image" ? event.target.files[0]: event.target.value;
@@ -32,13 +42,28 @@ class Profile extends Component {
       this.setState({loading:false});
     })
   }
+
+  clickFollowButton = callApi => {
+  const userId = isAuthenticated().user._id;
+  const token = isAuthenticated().token;
+
+  callApi(userId, token, this.state.user._id).then(data => {
+    if (data.error) {
+      this.setState({ error: data.error });
+    } else {
+      this.setState({ user: data, following: !this.state.following });
+    }
+  });
+};
+
   initUser = (userId)=>{
     const token = isAuthenticated().token;
     readUser(userId,token).then(data=>{
       if(data.error){
         this.setState({redirectToSignIn:true})
       }else{
-        this.setState({user:data})
+       let following = this.checkFollow(data);
+        this.setState({user:data,following})
       }
     })
   }
@@ -70,25 +95,15 @@ class Profile extends Component {
         <p>{`Joined ${new Date(this.state.user.created).toDateString()}`}</p>
         <br/>
         <div>
-        {isAuthenticated().user && isAuthenticated().user._id == this.state.user._id &&(
+        {isAuthenticated().user && isAuthenticated().user._id == this.state.user._id ?(
           <>
           <Link className={'waves-effect waves-light btn'} to={`/user/edit/${isAuthenticated().user._id}`}>Edit Profile</Link>
           <Input onChange={this.handleChange("image")} type="file" accept="image/*" className={'waves-effect waves-light btn'}>Upload Image</Input>
           <button onClick={this.uploadImage} className={'waves-effect waves-light yellow light btn'}>Upload</button>
-            {loading ? (
-           <div className="jumbotron text-center">
-             <h2>Loading...</h2>
-           </div>
-         ) : (
-           ""
-         )}
-         {loading ? (
-         <div className="jumbotron text-center">
-           <h2>Loading...</h2>
-         </div>
-       ) : (
-         ""
-       )}
+          </>
+        ):(
+          <>
+          <FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton}/>
           </>
         )}
         </div>

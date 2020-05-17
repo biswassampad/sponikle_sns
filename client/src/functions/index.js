@@ -124,16 +124,6 @@ export const fileUploader=(image,userId,type)=>{
   console.log(image);
   const fd = new FormData();
   fd.append('image',image,image.name);
-  console.log(fd);
-  // console.log('token',token);
-  // var converted = "";
-  // var reader = new FileReader();
-  //   reader.onload = function (){
-  //     console.log('readed file',reader.result);
-  //     var converted = reader.result.slice(22);
-  //     if(type=="dp"){
-  //       console.log('sending the file');
-  console.log(userId)
   return  fetch(`http://127.0.0.1:8080/uploaddp/${userId}`,{
           method:"POST",
           headers:{
@@ -146,7 +136,51 @@ export const fileUploader=(image,userId,type)=>{
         }).catch(err=>{
           console.log(err);
         })
-  //     }
-  //     }
-  //   reader.readAsDataURL(image);
+}
+
+
+export const follow=(userId,token,followId)=>{
+  var body={
+    userId:userId,followId:followId
+  }
+  let jsonbody = JSON.stringify(body);
+  console.log('body',jsonbody);
+  return fetch(`http://127.0.0.1:8080/user/follow`,{
+    method:"POST",
+    headers:{
+      Accept:"application/json",
+      "Content-type": "application/json",
+      Authorization :`Bearer ${token}`
+    },
+    body:jsonbody
+  })
+  .then(response=>{
+    return response.json();
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+
+export const unfollow=(userId,token,unfollowId)=>{
+  var body={
+    userId:userId,unfollowId:unfollowId
+  }
+  let jsonbody = JSON.stringify(body);
+  console.log('body',jsonbody);
+  return fetch(`http://127.0.0.1:8080/user/unfollow`,{
+    method:"POST",
+    headers:{
+      Accept:"application/json",
+      "Content-type": "application/json",
+      Authorization :`Bearer ${token}`
+    },
+    body:jsonbody
+  })
+  .then(response=>{
+    return response.json();
+  })
+  .catch(err=>{
+    console.log(err)
+  })
 }
