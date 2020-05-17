@@ -5,12 +5,13 @@ import { Input } from '@material-ui/core';
 
 import {isAuthenticated,readUser,uploadDp,fileUploader} from '../../functions';
 import FollowProfileButton from '../../components/FollowProfileButton';
+import ProfileTabs from '../../components/profileTabs';
 
 class Profile extends Component {
   constructor(){
     super()
     this.state = {
-      user:{following:[],followers:[]},
+      user:{following:[],follower:[]},
       redirectToSignIn : false,
       isUploadin:false,
       image:"",
@@ -106,6 +107,7 @@ class Profile extends Component {
           <FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton}/>
           </>
         )}
+        <ProfileTabs following={this.state.user.following} follower={this.state.user.followers}/>
         </div>
       </div>
     );
