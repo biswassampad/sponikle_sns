@@ -2,3 +2,19 @@
   height:200px;
   width:200px;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@0;1&display=swap');
+
+.App {
+  text-align: center;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.hero_main{
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.navlogo{
+  height:8vh;
+  width:15vw;
+}

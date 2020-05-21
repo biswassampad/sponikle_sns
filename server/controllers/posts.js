@@ -2,6 +2,33 @@ const fd = require('formidable');
 const fs = require('fs');
 const Post = require('../models/post');
 const _ = require('lodash');
+const aws = require('aws-sdk');
+
+function postTos3(file, filename, cb) {
+    console.log('uploading initiated for post');
+    let s3bucket = new aws.S3({
+        accessKeyId: 'AKIAJM2EGAWHAXMOKKLQ',
+        secretAccessKey: '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',
+        Bucket: 'sponiklepp'
+    });
+    s3bucket.createBucket(function() {
+        var params = {
+            Bucket: 'sponiklepp/images',
+            Key: filename + '.jpg',
+            Body: file
+        };
+
+        return s3bucket.upload(params, function(err, data) {
+            console.log('cloud,OK', 'Uploading.....');
+            if (err) {
+                console.log('error in callback');
+                console.log(err);
+            }
+            console.log('success');
+            return cb(data);
+        })
+    })
+}
 
 exports.postById = async(req, res, next, id) => {
     await Post.findById(id)
@@ -30,27 +57,43 @@ exports.getPosts = async(req, res) => {
         });
 };
 
-exports.createPost = async(req, res) => {
-    req.profile.hashed_password = undefined
-    req.profile.salt = undefined
-    const post = await new Post({
-        post: req.body.text,
-        postedBy: req.profile
-    });
+exports.createPost = async(req, res, next) => {
+    console.log('req.body', req.body);
+    if (req.body.text && !req.body.image) {
+        console.log('switching to TEXT only mode');
+        var user = req.profile;
+        user.hashed_password = undefined;
+        user.salt = undefined;
+        user.following = undefined;
+        user.followers = undefined;
+        const post = await new Post({
+            post: req.body.text,
+            owner: user,
+            location: req.body.location,
+            likes: [],
+            dislikes: [],
+            comments: []
+        })
 
-    post.save((err, result) => {
-        if (err) {
-            res.status(500).json({
-                'error': err
-            })
-        }
+        post.save((err, result) => {
+            if (err) {
+                res.status(500).json({
+                    'error': err
+                })
+            }
+            if (result) {
+                res.status(200).json({
+                    'post': result
+                })
+            }
+        })
 
-        if (result) {
-            res.status(200).json({
-                'post': result,
-            })
-        }
-    });
+    } else if (!req.body.text && req.body.image) {
+        console.log('switching to IMAGE Only mode');
+
+    } else if (req.body.text && req.body.image) {
+        console.log('swithcing to combo mode');
+    }
 }
 
 exports.postByUser = async(req, res) => {

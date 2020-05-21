@@ -4,11 +4,16 @@ const { ObjectId } = mongoose.Schema
 
 const PostSchema = new mongoose.Schema({
     post: [],
-    postedBy: {
-        type: ObjectId,
-        ref: "User"
-    },
+    owner: [],
+    location: [],
+    likes: [],
+    dislikes: [],
+    comments: [],
     created: {
+        type: Date,
+        default: Date.now
+    },
+    updated: {
         type: Date,
         default: Date.now
     }

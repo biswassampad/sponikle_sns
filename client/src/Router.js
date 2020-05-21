@@ -15,7 +15,6 @@ import Editprofile from './pages/user/editProfile';
 
 const Router =()=>(
   <div>
-    <Menu/>
     <Switch>
       <Route path="/" component={Home} exact></Route>
       <Route path="/signup" component={Signup} exact></Route>

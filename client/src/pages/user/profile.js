@@ -3,9 +3,10 @@ import {Link} from 'react-router-dom';
 
 import { Input } from '@material-ui/core';
 
-import {isAuthenticated,readUser,uploadDp,fileUploader} from '../../functions';
+import {isAuthenticated,readUser,uploadDp,fileUploader,getLocation} from '../../functions';
 import FollowProfileButton from '../../components/FollowProfileButton';
 import ProfileTabs from '../../components/profileTabs';
+import NewPost from '../../components/newPost';
 
 class Profile extends Component {
   constructor(){
@@ -18,7 +19,8 @@ class Profile extends Component {
       fileSize:"",
       error:"",
       loading: false,
-      following: false
+      following: false,
+      location:""
     }
   }
 
@@ -59,6 +61,12 @@ class Profile extends Component {
 
   initUser = (userId)=>{
     const token = isAuthenticated().token;
+    getLocation()
+   .then(location => {
+     this.setState({
+       location
+     });
+   });
     readUser(userId,token).then(data=>{
       if(data.error){
         this.setState({redirectToSignIn:true})
@@ -108,6 +116,7 @@ class Profile extends Component {
           </>
         )}
         <ProfileTabs following={this.state.user.following} follower={this.state.user.followers}/>
+        <NewPost location={this.state.location}/>
         </div>
       </div>
     );

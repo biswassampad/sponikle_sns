@@ -11,7 +11,7 @@ function uploadToS3(file, filename, cb) {
     let s3bucket = new aws.S3({
         accessKeyId: 'AKIAJM2EGAWHAXMOKKLQ',
         secretAccessKey: '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',
-        Bucket: 'sponikle'
+        Bucket: 'sponikledp'
     });
     s3bucket.createBucket(function() {
         var params = {
@@ -113,7 +113,7 @@ exports.deleteUser = async(req, res, next) => {
 // updated user profile picture
 exports.uploadProfilePicture = async(req, res, next) => {
     let form = new formidable.IncomingForm();
-    form.keepExtesnions = true;
+    form.keepExtensions = true;
     let stringDate = Date.parse(new Date);
     form.parse(req, (err, fields, files) => {
         if (err) {

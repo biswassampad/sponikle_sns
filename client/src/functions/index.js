@@ -184,3 +184,64 @@ export const unfollow=(userId,token,unfollowId)=>{
     console.log(err)
   })
 }
+
+export const findPeople = (userId,token)=>{
+  return fetch(`http://127.0.0.1:8080/user/findPeople/${userId}`,{
+    method:"GET",
+    headers:{
+      Accept:"application/json",
+      "Content-type": "application/json",
+            Authorization:`Bearer ${token}`
+    }
+  })
+  .then(response=>{
+    return response.json()
+  })
+  .catch(error=>{
+    console.log(error);
+  })
+}
+
+export const createPost = (userId,token,postData)=>{
+
+  let jsonbody = JSON.stringify(postData);
+    console.log('sending to backend',jsonbody);
+  return fetch(`http://127.0.0.1:8080/createPost/${userId}`,{
+    method: "POST",
+    headers: {
+      Accept:"application/json",
+      "Content-type": "application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:jsonbody
+  })
+  .then(response=>{
+    return response.json();
+  })
+  .catch(
+    err=>{
+      console.log(err);
+    }
+  )
+}
+
+// get user location function
+export function getLocation() {
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      resolve({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      });
+    }, () => {
+      resolve(fetch('https://ipapi.co/json')
+        .then(res => res.json())
+        .then(location => {
+          return {
+            lat: location.latitude,
+            lng: location.longitude
+          };
+        }));
+    });
+  });
+}
