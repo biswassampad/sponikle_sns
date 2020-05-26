@@ -17,7 +17,7 @@ const Home = () =>{
   })
 
   return (
-    <Main pad="large" pad={"none"}>
+    <Main pad={"none"}>
       <Box pad={"medium"} justify={"end"} gap={"large"} direction={"row-responsive"}>
         <Image
       src={navlogo}
@@ -31,11 +31,11 @@ const Home = () =>{
           size="xlarge"
           className={'animate__animated animate__fadeInDown'}
           >Welcome to Sponikle</Heading>
-        <Paragraph margin={'small'} size={'large'}   className={'animate__animated animate__fadeInUp'}>The Social Networking Redifined</Paragraph>
+        <Paragraph margin={'small'} size={'large'}   className={'animate__animated animate__fadeInUp'}>The Social Networking Re-defined</Paragraph>
         </animated.div>
       </Box>
       <Box pad={"medium"} justify={"end"} gap={"small"} direction={"row-responsive"} overflow={"hidden"}>
-        <Button primary margin={'medium'} size={"large"} label="Jump In" icon={<Deploy />} reverse className={'animate__animated animate__slideInLeft'} href={"/signin"}></Button>
+        <Button primary margin={'medium'} size={"large"} label="Launch" icon={<Deploy />} reverse className={'animate__animated animate__slideInLeft'} href={"/signin"}></Button>
         <Button primary margin={'medium'} size={"large"} label="Documentations" icon={<Article />} reverse color={'#00C781'} className={'animate__animated animate__slideInRight'}></Button>
       </Box>
       <Box pad={"medium"} justify={"end"} gap={"small"} direction={"row-responsive"} overflow={"hidden"}>

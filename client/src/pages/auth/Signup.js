@@ -1,6 +1,9 @@
 import React ,{Component} from 'react';
-import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
+import {Main,Heading,Paragraph,Box,Image,Button,Grid,TextInput,CheckBox} from 'grommet';
+import {Mail,License,Unlock,User,UserNew,Magic} from 'grommet-icons';
+
+import subg from '../../resources/backgrounds/subg.png';
+import navlogo from '../../resources/logos/nav_logo.png';
 
 import {signUp} from './../../functions';
 class Signup extends Component{
@@ -19,6 +22,10 @@ class Signup extends Component{
   handleChange = (name)=>(event)=>{
     this.setState({[name]:event.target.value});
   }
+  changeRoute = ()=>{
+    window.location.href = '/signin';
+  }
+
   submitForm = (event)=>{
     event.preventDefault()
     const {name,email,displayname,password} = this.state
@@ -43,20 +50,44 @@ class Signup extends Component{
   render(){
     const {name,email,password,error,open} = this.state;
     return (
-      <div>
-        <h2>Signup</h2>
-        <form>
-        <Input placeholder="Full Name" type="text" onChange={this.handleChange("name")} value={this.state.name}></Input>
-        <Input placeholder="email" type="email" onChange={this.handleChange("email")} value={this.state.email}></Input>
-        <Input placeholder="Display Name" type="text" onChange={this.handleChange("displayname")} value={this.state.displayname}></Input>
-        <Input placeholder="password" type="password" onChange={this.handleChange("password")} value={this.state.password}></Input>
-        <Button color={"primary"} onClick={this.submitForm}>Register</Button>
-        </form>
-        <p>{error}</p>
-        <p style={{display:open ? "":"none"}}>
-          Account has been created ,Please Login to continue.
-        </p>
-      </div>
+      <Main pad={"none"} fill>
+      <Grid fill rows={["auto", "flex", "auto"]}>
+        <Box direction="row" >
+              <Box width="60vw" >
+                <Box pad={"medium"} justify={"start"} gap={"large"} direction={"row-responsive"}>
+                  <Image
+                src={navlogo}
+                className="navlogo"
+              />
+                </Box>
+                <Image
+              src={subg}
+              className="lgbg"
+            />
+              </Box>
+              <Box  width="35vw">
+
+            <Box margin={'large'} className={'signupInSec'}>
+              <Heading margin="medium" color={'#7D4CDB'} className={'signupHeader animate__animated animate__fadeInDown'}>Sponikle Welcomes You !!</Heading>
+              <form>
+            <TextInput type="text" className={'signupInput animate__animated animate__fadeInUp'} placeholder={'Full Name here...'} icon={<User className={'animate__animated animate__fadeInUp'} color={'#7D4CDB'}/>} reverse size={'medium'} required/>
+              <TextInput type="email" className={'signupInput animate__animated animate__fadeInUp'} placeholder={'Email id here...'} icon={<Mail className={'animate__animated animate__fadeInUp'} color={'#7D4CDB'}/>} reverse size={'medium'} required/>
+              <TextInput type="text" className={'signupInput animate__animated animate__fadeInUp'} placeholder={'Display Name here...'} icon={<UserNew className={'animate__animated animate__fadeInUp'} color={'#7D4CDB'}/>} reverse size={'medium'} required/>
+            <TextInput type="password" className={'signupInput animate__animated animate__fadeInUp'} placeholder={'Password here...'} icon={<License className={'animate__animated animate__fadeInUp'}  color={'#7D4CDB'}/>} reverse size={'medium'} required/>
+              <CheckBox label="By accepting this you do agree with sponikle's Terms&Conditions" required/>
+            <Button margin={'medium'} primary label={"Let's Dive In"} icon={<Magic  className={'animate__animated animate__zoomIn'}/>} reverse size={'large'} className={'animate__animated animate__zoomIn'}/>
+
+            </form>
+          </Box>
+            <Box margin={'medium'} justify={"center"} gap={"small"} direction={"row-responsive"} >
+              <Paragraph margin={'small'} size={'medium'}   className={'clickable animate__animated animate__fadeInUp'} color={'#7D4CDB'} onClick={this.changeRoute}>Wrong Place ? Wanna Login?</Paragraph>
+            </Box>
+              </Box>
+
+            </Box>
+      </Grid>
+
+      </Main>
     )
   }
 }

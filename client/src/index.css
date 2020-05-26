@@ -4,7 +4,6 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@0;1&display=swap');
-
 .App {
   text-align: center;
   font-family: 'IBM Plex Sans', sans-serif;
@@ -17,4 +16,130 @@
 .navlogo{
   height:8vh;
   width:15vw;
+}
+.loginInpSec{
+  margin-top: 10vh !important;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.signupInSec{
+  margin-top: 10vh !important;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.signupHeader{
+  margin-bottom: 10vh !important;
+}
+.loginheader{
+margin-bottom: 16vh !important;
+}
+.loginInput{
+  border:1.5px solid #7D4CDB !important;
+  border-radius:10px !important;
+}
+.signupInput{
+  border:1.5px solid #7D4CDB !important;
+  border-radius:10px !important;
+  margin-top:15px !important;
+}
+.lgbg{
+  height:60vh;
+  margin-top:100px;
+}
+.clickable{
+  cursor:pointer;
+}
+.dashboard_sidenav{
+  height:100vh;
+}
+.dn_logo_con{
+  border:1px solid white;
+  margin-top:2vh;
+  height:5vh;
+  width:5vh;
+  margin:1vh;
+  border-radius:50%;
+  background:#c7ecee;
+}
+.nav_sec{
+  margin-top:20vh;
+}
+.nav_link{
+  margin:10px;
+}
+.nav_icon{
+  font-size:25px !important;
+  margin:5px;
+}
+.adjustleft{
+  margin-left:8px !important;
+}
+.user_ops_nav{
+  margin-top:18vh;
+}
+.postSection{
+
+}
+.searchNav{
+  width:95vw;
+}
+.searchInput{
+  border:none !important;
+}
+.searchPlace{
+  margin-left:20vw !important;
+}
+
+.postBox{
+  height:6vh;
+  margin-top:10px;
+  border-radius:10px;
+  background:#eee;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.popup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+.popup_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  border-radius: 20px;
+  background: white;
+}
+.postsSection{
+  margin-top:5vh;
+  height:60vh;
+}
+.post{
+  height:60vh;
+  border-radius:30px 30px  0 0 !important;
+  overflow:hidden;
+}
+.bottomShading{
+  background-image: linear-gradient(to top, rgba(0,0,0,0.5) , transparent) !important;
+  height:30%;
+  margin-top:40vh;
+}
+.userDetails{
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.4) , transparent) !important;
+  height:20%;
+}
+.post_owner{
+
+}
+.post_creds{
+  margin-left:20px !important;
+}
+.post_ops{
+  /* margin-left:15vw !important; */
 }

@@ -11,6 +11,7 @@ import Profile from './pages/user/profile';
 import Menu from './components/Menu';
 import User from './pages/user/users';
 import Editprofile from './pages/user/editProfile';
+import Feed from './pages/Wall';
 
 
 const Router =()=>(
@@ -21,6 +22,7 @@ const Router =()=>(
         <Route path="/signin" component={Signin} exact></Route>
           <Route path="/dashboard" component={Dashboard} exact></Route>
           <Route path="/user/:userId" component={Profile} exact></Route>
+          <Route path="/feed" component={Feed} exact></Route>
           <Route path="/users" component={User} exact></Route>
           <PrivateRoute path="/user/edit/:userId" component={Editprofile} exact></PrivateRoute>>
     </Switch>
