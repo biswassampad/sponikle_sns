@@ -12,6 +12,7 @@ import Menu from './components/Menu';
 import User from './pages/user/users';
 import Editprofile from './pages/user/editProfile';
 import Feed from './pages/Wall';
+import Map from './pages/Map';
 
 
 const Router =()=>(
@@ -24,6 +25,7 @@ const Router =()=>(
           <Route path="/user/:userId" component={Profile} exact></Route>
           <Route path="/feed" component={Feed} exact></Route>
           <Route path="/users" component={User} exact></Route>
+          <Route path="/explore" component={Map} exact></Route>
           <PrivateRoute path="/user/edit/:userId" component={Editprofile} exact></PrivateRoute>>
     </Switch>
   </div>

@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 
-import { Input } from '@material-ui/core';
 
 import {isAuthenticated,readUser,uploadDp,fileUploader,getLocation} from '../../functions';
 import FollowProfileButton from '../../components/FollowProfileButton';
@@ -107,7 +106,7 @@ class Profile extends Component {
         {isAuthenticated().user && isAuthenticated().user._id == this.state.user._id ?(
           <>
           <Link className={'waves-effect waves-light btn'} to={`/user/edit/${isAuthenticated().user._id}`}>Edit Profile</Link>
-          <Input onChange={this.handleChange("image")} type="file" accept="image/*" className={'waves-effect waves-light btn'}>Upload Image</Input>
+          <input onChange={this.handleChange("image")} type="file" accept="image/*" className={'waves-effect waves-light btn'}>Upload Image</input>
           <button onClick={this.uploadImage} className={'waves-effect waves-light yellow light btn'}>Upload</button>
           </>
         ):(

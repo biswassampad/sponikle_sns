@@ -49,6 +49,10 @@ margin-bottom: 16vh !important;
 }
 .dashboard_sidenav{
   height:100vh;
+  position: fixed;
+}
+.dashhero{
+  margin-left:5vw;
 }
 .dn_logo_con{
   border:1px solid white;
@@ -118,7 +122,10 @@ margin-bottom: 16vh !important;
 }
 .postsSection{
   margin-top:5vh;
-  height:60vh;
+}
+.postsSecChild{
+  overflow: auto;
+  width:105% !important;
 }
 .post{
   height:60vh;
@@ -142,4 +149,97 @@ margin-bottom: 16vh !important;
 }
 .post_ops{
   /* margin-left:15vw !important; */
+}
+.postContainer{
+  height:auto !important;
+  border-radius: 30px;
+  margin-bottom:2rem;
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5) !important;
+-moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5) !important;
+box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5) !important;
+}
+.text_container{
+  margin:20px;
+}
+.time_ops{
+  margin-left:6vw;
+}
+.addpaddings{
+  margin-left:5vw;
+  font-weight: bold;
+}
+.postLayOver {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+.postLayOver_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  border-radius: 20px;
+  background: white;
+}
+.viewButton{
+  border:1px solid rgba(0,0,0,0.4);
+  height:2.5rem;
+  width:6rem;
+  padding:5px;
+  position:inherit;
+  background:rgba(0,0,0,0.4);
+  color:white;
+  border-radius:5px;
+  margin-left:33rem;
+  margin-top:2rem;
+}
+.comment-field{
+  padding:2px;
+  margin:10px;
+  border:2px solid black;
+  border-radius:20px;
+}
+.heightAdjust{
+  margin-top:10px;
+  margin-right:5px;
+}
+.noborder{
+  border:none !important;
+}
+.postTextHolder{
+  height:15rem !important;
+  border:none !important;
+}
+.postImageTextHolder{
+  height:3rem !important;
+  border:none !important;
+}
+.postTextHolder:focus{
+  border:none !important;
+  outline: none !important;
+}
+.uploadButton{
+  margin-left:40rem !important;
+}
+
+type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+.postImage{
+}
+.map{
+  height:100vh;
+  margin-left:4vw;
+  width:96vw;
 }
