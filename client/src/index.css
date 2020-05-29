@@ -109,6 +109,7 @@ margin-bottom: 16vh !important;
   bottom: 0;
   margin: auto;
   background-color: rgba(0,0,0, 0.5);
+  z-index:992;
 }
 .popup_inner {
   position: absolute;
@@ -119,6 +120,7 @@ margin-bottom: 16vh !important;
   margin: auto;
   border-radius: 20px;
   background: white;
+  z-index:993;
 }
 .postsSection{
   margin-top:5vh;
@@ -243,3 +245,32 @@ type="file"] {
   margin-left:4vw;
   width:96vw;
 }
+.mapLayover {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+  z-index:999;
+}
+.MapLoader{
+  height:50px;
+  width:50px;
+  margin:0 auto;
+  margin-top:48vh;
+}
+.uploadForm{
+  border:1px solid white;
+  background:white;
+  position:absolute;
+  height:50px;
+  width:50px;
+  bottom:5rem;
+  right:2rem;
+  z-index:900;
+  border-radius:50%;
+  }

@@ -7,12 +7,15 @@ class Popup extends React.Component {
   constructor(){
     super();
     this.state={
-      uploadImage:""
+      uploadImage:"",
+      postText:""
     }
   }
   handleChange = (name)=>(event)=>{
     this.setState({[name]:event.target.value});
-    console.log('thisImage',this.state.uploadImage);
+  }
+  uploadPost=(event)=>{
+    console.log('post',this.state.postText);
   }
   render() {
     return (
@@ -23,9 +26,9 @@ class Popup extends React.Component {
           <Tab title="Text">
             <Box pad="medium">
               <TextArea
-     placeholder="What's on your mind....." fill resize={false} className={'postTextHolder'} focusIndicator={false}/>
+     placeholder="What's on your mind....." fill resize={false} className={'postTextHolder'} focusIndicator={false} onChange={this.handleChange('postText')}/>
    <Box direction={'row-responsive'} gap={'xlarge'} align={'end'}>
-    <Button primary label="Done" size={'medium'} className={'uploadButton'}/>
+    <Button primary label="Done" size={'medium'} className={'uploadButton'} onClick={this.uploadPost}/>
 
     </Box>
             </Box>

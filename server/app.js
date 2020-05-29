@@ -6,13 +6,17 @@ const bodyparser = require('body-parser');
 const cookieparser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const cors = require('cors');
-var multer = require('multer');
-
+const chalk = require('chalk');
+const figlet = require('figlet');
 // database
 
 mongoose.connect('mongodb://127.0.0.1:27017/sns', { useNewUrlParser: true, useUnifiedTopology: true })
     .then((success) => {
-        console.log('Mongodb Connected');
+        console.log(
+            chalk.black.bgWhite(
+                'Database Connected'
+            )
+        );
     })
 
 mongoose.connection.on("error", err => {
@@ -52,7 +56,27 @@ app.use(function(err, req, res, next) {
 const port = 8080;
 
 app.listen(port, () => {
-    console.log('Welcome to Sponikle , "THE SOCIAL NETWORK REDIFINED"');
+    figlet('SPONIKLE', function(err, data) {
+        if (err) {
+            console.log('Something went wrong...');
+            console.dir(err);
+            return;
+        }
+        console.log(data);
+        console.log(
+            chalk.green(
+                'Sponikle' +
+                chalk.blue.bold(' The Social Networking Redefined')
+            )
+        );
+        console.log(
+            chalk.green(
+                'ORIGINAL CREATOR :' +
+                chalk.blue.bold(' Biswas Sampad')
+            )
+        )
+
+    });
 });
 
 
