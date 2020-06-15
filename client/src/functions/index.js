@@ -275,6 +275,7 @@ export const getCountry = () =>{
 }
 
 export const valiDateUser = (displayname) =>{
+  console.log('fetching displaynames')
   return fetch(`http://127.0.0.1:8080/validateSlug`,{
     method:"POST",
     headers:{
@@ -286,10 +287,11 @@ export const valiDateUser = (displayname) =>{
     }
   })
   .then(response=>{
+    console.log('response',response);
     return response.json();
   })
   .catch(err=>{
-    return err.json();
+    console.log('error in fetching data',err);
   })
 
 }

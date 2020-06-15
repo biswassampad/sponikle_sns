@@ -220,7 +220,7 @@ exports.validateSlug = (req, res, next) => {
                     message: "Display Name is valid"
                 })
             }
-            return res.status(401).json({
+            return res.status(200).json({
                 message: "Display name is already taken"
             })
         })
