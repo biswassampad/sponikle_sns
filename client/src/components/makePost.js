@@ -8,15 +8,41 @@ class Popup extends React.Component {
     super();
     this.state={
       uploadImage:"",
-      postText:""
+      postText:"",
+      inProcess:false
     }
   }
   handleChange = (name)=>(event)=>{
     this.setState({[name]:event.target.value});
+    if(event.target.type=="file"){
+      let file = event.target.files[0];
+      this.readDataAsUrl(file)
+      .then((result)=>{
+        this.setState({
+          uploadImage:result
+        })
+      }).catch((error)=>{
+        console.error('err',error);
+      })
+    }
   }
-  uploadPost=(event)=>{
-    console.log('post',this.state.postText);
+  readDataAsUrl = (file)=>{
+    return new Promise((resolve, reject) => {
+  const fr = new FileReader()
+  fr.onerror = reject
+  fr.onload = function () {
+    resolve(fr.result)
   }
+  fr.readAsDataURL(file)
+})
+  }
+  clearImage=()=>{
+    console.log('clearing image');
+    this.setState({
+        uploadImage:""
+    })
+  }
+
   render() {
     return (
       <Box className='popup'>
@@ -40,11 +66,12 @@ class Popup extends React.Component {
                 {
                   this.state.uploadImage?(
                     <Box>
-                      <Image src={this.state.uploadImage}/>
+                      <Close onClick={()=>this.clearImage()}/>
+                      <Image src={this.state.uploadImage} className={'postUploadImage'}/>
                      </Box>
                   ):(
                     <Box>
-                        <input type='file' className={'postImage'} onChange={this.handleChange('uploadImage')}></input>
+                        <input type='file' className={'postImage'} onChange={this.handleChange('postImage')}></input>
                     </Box>
                   )
                 }

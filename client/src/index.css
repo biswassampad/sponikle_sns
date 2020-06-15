@@ -84,9 +84,14 @@ margin-bottom: 16vh !important;
 }
 .searchNav{
   width:95vw;
+  border:1px solid black;
+  display:flex !important;
+  align-items: center !important;
 }
 .searchInput{
   border:none !important;
+  position:fixed;
+  width:20rem;
 }
 .searchPlace{
   margin-left:20vw !important;
@@ -274,3 +279,17 @@ type="file"] {
   z-index:900;
   border-radius:50%;
   }
+  .postUploadImage{
+    height:12rem;
+  }
+.floatingSearchIcon{
+  position:fixed;
+  right:10px;
+  z-index:999;
+  max-width:20rem;
+  width:3rem;
+  height:3rem;
+  top:5rem;
+  border-radius:50%;
+  cursor: pointer;
+}

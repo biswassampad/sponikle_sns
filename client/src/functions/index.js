@@ -237,6 +237,7 @@ export function getLocation() {
       resolve(fetch('https://ipapi.co/json')
         .then(res => res.json())
         .then(location => {
+          console.log('location',location)
           return {
             lat: location.latitude,
             lng: location.longitude
@@ -244,4 +245,51 @@ export function getLocation() {
         }));
     });
   });
+}
+
+export const getCountries = () =>{
+  return fetch(`http://127.0.0.1:8080/getCountries`,{
+    method: "GET",
+    headers: {
+      Accept:'application/json',
+      "Content-type": "application/json"
+    }
+  })
+  .then(response => {
+    console.log('gotCountries',response)
+    return response.json()
+  }).catch(err=>{console.log(err);
+  });
+}
+
+export const getCountry = () =>{
+  return new Promise((resolve) => {
+      resolve(fetch('https://ipapi.co/json')
+        .then(res => res.json())
+        .then(location => {
+          return {
+            location:location
+          };
+        }));
+    });
+}
+
+export const valiDateUser = (displayname) =>{
+  return fetch(`http://127.0.0.1:8080/validateSlug`,{
+    method:"POST",
+    headers:{
+      Accept:"application/json",
+      "Content-type": "application/json"
+    },
+    body:{
+      displayname:displayname
+    }
+  })
+  .then(response=>{
+    return response.json();
+  })
+  .catch(err=>{
+    return err.json();
+  })
+
 }

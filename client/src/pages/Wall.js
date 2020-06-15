@@ -5,7 +5,7 @@ import {Search,Chat,MoreVertical,Hide,Clipboard,Like,Dislike,Tip} from 'grommet-
 import Navbar from '../components/navbar';
 import Popup from '../components/makePost';
 import Post from '../components/Post';
-
+import SearchPanel from '../components/searchpanel';
 class Feed extends Component{
   constructor(props) {
     super();
@@ -25,15 +25,7 @@ class Feed extends Component{
         <Box direction="row" >
             <Navbar />
               <Box width="95vw" className={'dashhero'}>
-                <Box direction="row-responsive" className={'searchNav'} alignContent={'end'}>
-                <Box border={true} direction="row-responsive" className={'searchplace'}>
-                  <TextInput placeholder={'What you are looking for ?'} className={'searchInput'}/>
-                  <Box>
-                    <Search  />
-                  </Box>
-
-                </Box>
-                </Box>
+                <SearchPanel/>
                   <Grid fill rows={["auto", "flex", "auto"]}>
                     <Box direction="row" justify={'between'}>
                       <Box width="25vw" >
@@ -41,7 +33,7 @@ class Feed extends Component{
                       </Box>
                       <Box width="40vw" direction="column">
                         <Box className={'postSection'} justify={'between'}>
-                          <Box className={'postBox'} pad={'small'} onClick={this.togglePopup.bind(this)} direction={'row-responsive'} gap={'small'}>
+                            <Box className={'postBox'} pad={'small'} onClick={this.togglePopup.bind(this)} direction={'row-responsive'} gap={'small'}>
                            <Chat /> <Text> What's on your mind ?</Text>
                           </Box>
                           <div>

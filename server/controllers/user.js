@@ -1,8 +1,9 @@
 const _ = require('lodash');
-const fs = require('fs');
 const formidable = require("formidable");
 const User = require('../models/user');
+const Country = require('../models/country');
 const aws = require('aws-sdk');
+const fs = require('fs');
 
 
 // uploading to cloud function 
@@ -163,7 +164,7 @@ exports.addFollowing = (req, res, next) => {
         next();
     });
 };
-
+// adding follower to user collection
 exports.addFollower = (req, res) => {
     User.findByIdAndUpdate(req.body.followId, { $push: { followers: req.body.userId } }, { new: true })
         .populate('following', '_id name')
@@ -179,7 +180,7 @@ exports.addFollower = (req, res) => {
             res.json(result);
         });
 };
-
+// removing follower from user collection
 exports.removeFollowing = (req, res, next) => {
     User.findByIdAndUpdate(req.body.userId, {
         $pull: { following: req.body.unfollowId }
@@ -191,6 +192,7 @@ exports.removeFollowing = (req, res, next) => {
     })
 };
 
+// 
 exports.removeFollower = (req, res, next) => {
     User.findByIdAndUpdate(req.body.unfollowId, {
             $pull: { followers: req.body.userId }
@@ -208,3 +210,29 @@ exports.removeFollower = (req, res, next) => {
             res.json(result);
         });
 };
+
+exports.validateSlug = (req, res, next) => {
+    let requestedSlug = req.body.displayname;
+    User.findOne({ displayname: requestedSlug })
+        .exec((err, user) => {
+            if (err || !user) {
+                return res.status(200).json({
+                    message: "Display Name is valid"
+                })
+            }
+            return res.status(401).json({
+                message: "Display name is already taken"
+            })
+        })
+}
+
+exports.getCountries = (req, res, next) => {
+    fs.readFile('aa.json', (err, data) => {
+        if (err) throw err;
+        let countries = JSON.parse(data);
+        console.log(countries);
+        res.status(200).json({
+            'countries': countries
+        })
+    })
+}
