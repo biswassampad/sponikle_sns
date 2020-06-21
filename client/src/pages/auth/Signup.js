@@ -16,40 +16,100 @@ class Signup extends Component{
       password:"",
       displayname:"",
       error:"",
-      open:false
+      open:false,
+      validationerror:false,
+      otherError:false,
+      success:false,
+      errorMessage:"",
+      agreetoterms:false,
+      looksgood:false
     }
   }
   handleChange = (name)=>(event)=>{
-    this.setState({[name]:event.target.value});
-  }
+    if(name == "agreetoterms"){
+      this.setState({
+        [name]:true
+      })
+    }else{
+      this.setState({[name]:event.target.value});
+    }
+    }
   changeRoute = ()=>{
     window.location.href = '/signin';
   }
 
   submitForm = (event)=>{
-    event.preventDefault()
-    const {name,email,displayname,password} = this.state
-    const user = {
-      name,email,displayname,password
+    const {name,email,displayname,password,agreetoterms} = this.state;
+    this.setState({
+      validationerror:false,
+      otherError:false,
+      success:false,
+      errorMessage:"",
+      agreetoterms:false,
+      looksgood:false
+    })
+    if(name && email && displayname && password){
+      console.log('agree',agreetoterms);
+    if(agreetoterms== true){
+      const user = {
+        name,email,displayname,password
+      }
+      valiDateUser(displayname)
+      .then(response => {
+        if(response.message == 'Display Name is valid'){
+          this.setState({
+            looksgood:true
+          })
+          setTimeout(()=>{
+            this.setState({
+              looksgood:false
+            })
+          },1000)
+          signUp(user)
+          .then(data=>{
+            if(data.error) this.setState({error:data.error})
+            else {
+              this.setState({
+                accesibility:true,
+                error:"",
+                name:"",
+                email:"",
+                displayname:"",
+                password:"",
+                success:true,
+              })
+                setTimeout(()=>{
+                  window.location.href="/signin";
+                },3000)
+            }
+          })
+        }else{
+          this.setState({
+            validationerror:true
+          })
+        }
+      })
+    }else{
+      this.setState({
+        otherError:true,
+        errorMessage:"Please agree to the terms & Conditions"
+      })
+    }
+    }else{
+        this.setState(
+        { otherError:true ,
+          errorMessage:'Please fill all the details'
+        }
+      )
     }
 
-    signUp(user)
-    .then(data=>{
-      if(data.error) this.setState({error:data.error})
-      else this.setState({
-        accesibility:true,
-        error:"",
-        name:"",
-        email:"",
-        displayname:"",
-        password:"",
-        open:true
-      })
-    })
   }
-  validateUser=()=>{
+  validateUser=(name)=>(event)=>{
     console.log('validating user');
-    let displayname = this.state.displayname;
+    this.setState({
+      [name]:event.target.value
+    })
+    let displayname = event.target.value;
     valiDateUser(displayname)
     .then(response=>{
       console.log('response',response);
@@ -95,20 +155,48 @@ class Signup extends Component{
 
                   <Box margin={'large'} className={'signupInSec'}>
                     <Heading margin="medium" color={'#7D4CDB'} className={'signupHeader animate__animated animate__fadeInDown'}>Sponikle Welcomes You !!</Heading>
+
+                    <div>
+                      {
+                        this.state.success?(
+                          <Box className={'successMessage'} elevation={'small'}>Account Created Successfully</Box>
+                        ):("")
+                      }
+                      {
+                        this.state.validationerror?(
+                          <Box className={'warningmessage'} elevation={'small'}>Display Name is already taken.</Box>
+                        ):("")
+                      }
+                      {
+                        this.state.otherError?(
+                          <Box className={'errormessage'} elevation={'small'}>{this.state.errorMessage}</Box>
+                        ):("")
+                      }
+                      {
+                        this.state.looksgood?(
+                          <Box className={'successMessage'} elevation={'small'}>Display name looks good </Box>
+                        ):("")
+                      }
+                    </div>
                     <form>
+
                   <TextInput type="text"
                     className={'signupInput animate__animated animate__fadeInUp'}
                     placeholder={'Full Name here...'}
                     icon={<User className={'animate__animated animate__fadeInUp'}
                     color={'#7D4CDB'}/>} reverse size={'medium'}
-                    required/>
+                    required
+                    onChange={this.handleChange('name')}
+                    />
                     <TextInput type="email"
                       className={'signupInput animate__animated animate__fadeInUp'}
                       placeholder={'Email id here...'}
                       icon={<Mail className={'animate__animated animate__fadeInUp'}
                       color={'#7D4CDB'}/>}
                       reverse size={'medium'}
-                      required/>
+                      required
+                      onChange={this.handleChange('email')}
+                      />
                     <TextInput type="text"
                       className={'signupInput animate__animated animate__fadeInUp'}
                       placeholder={'Display Name here...'}
@@ -117,7 +205,7 @@ class Signup extends Component{
                       reverse
                       size={'medium'}
                       required
-                      onChange={()=>this.validateUser()}
+                      onChange={this.handleChange('displayname')}
                       />
                   <TextInput type="password"
                     className={'signupInput animate__animated animate__fadeInUp'}
@@ -126,15 +214,17 @@ class Signup extends Component{
                     color={'#7D4CDB'}/>}
                     reverse
                     size={'medium'}
-                    required/>
-                  <CheckBox label="By accepting this you do agree with sponikle's Terms and Conditions" required/>
+                    required
+                    onChange={this.handleChange('password')}
+                    />
+                  <CheckBox label="By accepting this you do agree with sponikle's Terms and Conditions" required onChange={this.handleChange('agreetoterms')}/>
                   <Button
                     margin={'medium'}
                     primary
                     label={"Let's Dive In"}
                     icon={<Magic  className={'animate__animated animate__zoomIn'}/>}
                     reverse size={'large'}
-                    className={'animate__animated animate__zoomIn'}/>
+                    className={'animate__animated animate__zoomIn'} onClick={this.submitForm}/>
 
                   </form>
                 </Box>
@@ -152,7 +242,9 @@ class Signup extends Component{
 
             </Main>
           ):(
-            <h2>This country does not have permission to visit this website</h2>
+            <>
+            <div className="lds-facebook"><div></div><div></div><div></div></div>
+            </>
           )
         }
       </div>

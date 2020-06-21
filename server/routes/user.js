@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/users', requireSignin, userController.allUsers);
 router.post('/validateSlug', userController.validateSlug);
-router.get('/getCountries', userController.getCountries);
 router.get('/user/:userId', requireSignin, userController.getUser);
 router.put("/user/:userId", requireSignin, userController.updateUser);
 router.delete("/user/:userId", requireSignin, userController.deleteUser);

@@ -213,6 +213,8 @@ exports.removeFollower = (req, res, next) => {
 
 exports.validateSlug = (req, res, next) => {
     let requestedSlug = req.body.displayname;
+    console.log('requested slug', requestedSlug);
+    // return res.send(requestedSlug);
     User.findOne({ displayname: requestedSlug })
         .exec((err, user) => {
             if (err || !user) {
@@ -220,19 +222,8 @@ exports.validateSlug = (req, res, next) => {
                     message: "Display Name is valid"
                 })
             }
-            return res.status(200).json({
+            return res.status(401).json({
                 message: "Display name is already taken"
             })
         })
-}
-
-exports.getCountries = (req, res, next) => {
-    fs.readFile('aa.json', (err, data) => {
-        if (err) throw err;
-        let countries = JSON.parse(data);
-        console.log(countries);
-        res.status(200).json({
-            'countries': countries
-        })
-    })
 }

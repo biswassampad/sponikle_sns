@@ -126,6 +126,7 @@ margin-bottom: 16vh !important;
   border-radius: 20px;
   background: white;
   z-index:993;
+  height:auto !important;
 }
 .postsSection{
   margin-top:5vh;
@@ -280,7 +281,7 @@ type="file"] {
   border-radius:50%;
   }
   .postUploadImage{
-    height:12rem;
+    width:15rem;
   }
 .floatingSearchIcon{
   position:fixed;
@@ -292,4 +293,67 @@ type="file"] {
   top:5rem;
   border-radius:50%;
   cursor: pointer;
+}
+.lds-facebook {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 80px;
+  margin-left:50vw;
+  margin-top:50vh;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: #7D4CDB;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+.successMessage{
+  height:50px;
+  width:100%;
+  padding:3%;
+  border-radius:10px;
+  background-color: #009688;
+  color:white;
+  margin-top:5px;
+}
+.warningmessage{
+  height:50px;
+  width:100%;
+  padding:3%;
+  border-radius:10px;
+  background-color: #FF9800;
+  color:white;
+}
+.errormessage{
+  height:50px;
+  width:100%;
+  padding:3%;
+  border-radius:10px;
+  background-color: #FF5722;
+  color:white;
 }

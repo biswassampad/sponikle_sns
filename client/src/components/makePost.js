@@ -42,7 +42,9 @@ class Popup extends React.Component {
         uploadImage:""
     })
   }
-
+uploadPost =()=>{
+  
+}
   render() {
     return (
       <Box className='popup'>
